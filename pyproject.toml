@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ticket-analyser-mcp"
+version = "1.0.0"
+description = "LangChain ticket analysis and policy-controlled MCP updates"
+requires-python = ">=3.11"
+dependencies = ["langchain>=1,<2", "langchain-openai>=1,<2", "mcp>=1.12,<2", "pydantic>=2.7,<3", "python-dotenv>=1,<2"]
+
+[project.scripts]
+ticket-agent = "ticket_agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["ticket_agent*"]
