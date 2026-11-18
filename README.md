@@ -134,8 +134,6 @@ This simple reference stores the latest body rather than a conversation thread;
 the audit log preserves previous snapshots. The model never receives the human
 edit operation as a tool.
 
-## Architecture
-
 
 ## Architecture
 
