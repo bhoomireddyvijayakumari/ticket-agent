@@ -1,3 +1,32 @@
+# AI-Powered Ticket Management Agent
+
+An intelligent ticket analysis and automation system built using **Python, LangChain, OpenAI, and the Model Context Protocol (MCP)**.
+
+The system analyses incoming support tickets, searches a knowledge base, classifies issues, assigns priorities, generates suggested responses, and performs controlled internal ticket updates with human-review safeguards.
+
+## Key Features
+
+- **AI Ticket Analysis:** Automatically understands and categorizes incoming support tickets.
+- **Priority Classification:** Identifies low, normal, high, and urgent tickets.
+- **Knowledge Base Search:** Retrieves relevant support guidance using an MCP-powered search tool.
+- **Automated Updates:** Updates internal ticket records through controlled workflows.
+- **Human-in-the-Loop:** Escalates sensitive, ambiguous, and low-confidence cases for review.
+- **Audit Logging:** Maintains before-and-after snapshots of ticket updates.
+- **Continuous Monitoring:** Supports automated ticket processing through a polling worker.
+
+## Technology Stack
+
+- **Programming Language:** Python 3.11+
+- **LLM Framework:** LangChain
+- **Language Model:** OpenAI via ChatOpenAI
+- **Agent Communication:** Model Context Protocol (MCP)
+- **Database:** SQLite
+- **Data Validation:** Pydantic
+- **Interface:** Command Line Interface (CLI)
+
+
+
+
 # Ticket analyser and automatic updater — LangChain + MCP
 
 A complete **local reference implementation**: ticket intake, an agent that searches a
@@ -107,19 +136,38 @@ edit operation as a tool.
 
 ## Architecture
 
+
+## Architecture
+
+The following diagram illustrates how the different components of the Ticket Management Agent interact.
+
 ```mermaid
 flowchart TD
-    CLI[CLI / polling worker] --> MCP[MCP ticket server]
-    MCP --> DB[(SQLite tickets + audit)]
-    CLI --> Agent[LangChain analysis agent]
-    Agent --> Model[ChatOpenAI model]
-    Agent --> Search[Scoped knowledge search tool]
-    Search --> MCP
-    Agent --> Result[Validated Analysis schema]
-    Result --> CLI
-    MCP --> Policy[Update policy + version check]
-    Policy --> DB
+    A["User / Support Staff"] --> B["CLI Interface"]
+    B --> C["LangChain Agent"]
+
+    C --> D["ChatOpenAI Model"]
+    C --> E["Knowledge Search Tool"]
+
+    E --> F["MCP Client"]
+    F --> G["MCP Ticket Server"]
+
+    G --> H[("SQLite Database")]
+
+    C --> I["Structured Analysis"]
+    I --> B
+
+    B --> J{"Apply Updates?"}
+    J -->|Yes| F
+    J -->|No| K["Preview Results"]
+
+    F --> L["Update Policy & Version Check"]
+    L --> H
+
+    H --> M["Audit Log"]
+
 ```
+
 
 The workflow reads a ticket through MCP and passes only subject, body and priority
 to the model. The agent can call `search_knowledge_base` repeatedly. LangChain's
