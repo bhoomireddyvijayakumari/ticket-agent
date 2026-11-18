@@ -178,6 +178,34 @@ MCP is the protocol boundary between the agent application and ticket operations
 LangChain manages model interaction and tool calling. SQLite stores the tickets;
 MCP is neither the database nor the reasoning model.
 
+## Project Structure
+
+The project follows a modular architecture, separating AI agent logic,
+MCP communication, ticket storage, configuration, and automated testing.
+
+```text
+ticket-agent/
+│
+├── ticket_agent/
+│   ├── agent.py
+│   ├── cli.py
+│   ├── models.py
+│   ├── server.py
+│   └── store.py
+│
+├── tests/
+│
+├── lessons/
+│
+├── deploy/
+│
+├── .env.example
+├── .gitignore
+├── pyproject.toml
+├── requirements-lock.txt
+├── README.md
+└── validation.txt
+
 ## What is analysed and updated?
 
 | Field | Behaviour |
